@@ -26,7 +26,7 @@ exports.up = (knex) => {
       bridges.string('sub_stage');
       bridges.string('project_code').unique();
       bridges.string('bridge_type');
-      bridges.float('span');
+      bridges.string('span');
       bridges.float('lat');
       bridges.float('long');
       bridges.string('individuals_directly_served');
