@@ -24,7 +24,7 @@ const updateBridge = async (id, changes) => {
 
 const findbyStage = async (stage) => {
   console.log(stage);
-  return await db('bridges').where({ 'bridges.project_stage': stage });
+  return await db('bridges').where({ 'bridges.stage': stage });
 };
 
 module.exports = {
