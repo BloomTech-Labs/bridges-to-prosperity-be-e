@@ -16,8 +16,8 @@ exports.seed = function (knex) {
           stage: 'Completed',
           type: 'Suspended',
           span: '8 Meters',
-          Lat: -2.42056,
-          Long: 28.9662,
+          lat: -2.42056,
+          long: 28.9662,
         },
         {
           id: 2,
@@ -30,8 +30,8 @@ exports.seed = function (knex) {
           stage: 'Completed',
           type: 'Suspended',
           span: 'NaN',
-          Lat: -2.42486,
-          Long: 28.9572,
+          lat: -2.42486,
+          long: 28.9572,
         },
         {
           id: 3,
@@ -44,8 +44,8 @@ exports.seed = function (knex) {
           stage: 'Completed',
           type: 'Suspended',
           span: '8 Meters',
-          Lat: -1.72053,
-          Long: 30.08124,
+          lat: -1.72053,
+          long: 30.08124,
         },
         {
           id: 4,
@@ -58,8 +58,8 @@ exports.seed = function (knex) {
           stage: 'Completed',
           type: 'Suspended',
           span: 'NaN',
-          Lat: -1.65595,
-          Long: 30.07884,
+          lat: -1.65595,
+          long: 30.07884,
         },
         {
           id: 5,
@@ -72,8 +72,8 @@ exports.seed = function (knex) {
           stage: 'Completed',
           type: 'Suspended',
           span: '8 Meters',
-          Lat: -1.87086,
-          Long: 29.87768,
+          lat: -1.87086,
+          long: 29.87768,
         },
       ]);
     });
