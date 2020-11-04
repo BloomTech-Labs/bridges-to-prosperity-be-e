@@ -2,7 +2,7 @@
 
 You can find the deployed project at https://bridges-b-api.herokuapp.com/
 
-You can find a demo vidoe of codebase at https://www.youtube.com/watch?v=PARd7apawNM&feature=youtu.be
+You can find a demo video of codebase at https://www.youtube.com/watch?v=PARd7apawNM&feature=youtu.be
 
 ## Contributors
 
@@ -21,7 +21,7 @@ You can find a demo vidoe of codebase at https://www.youtube.com/watch?v=PARd7ap
 
 Trello Board: https://trello.com/b/x1iIzJdj/labs25bridgesjessica
 
-Back end: https://bridges-b-api.herokuapp.com/built 
+Back end: https://bridges-b-api.herokuapp.com/built
 
 Tech Stack: Node.js, Express, Knex, PostgreSql, Docker
 
@@ -45,7 +45,6 @@ OKTA_URL_ISSUER=
 - run: `npm run knex seed:run` to populate your db with some data.
 - run: `npm run tests` to confirm all is setup and tests pass.
 - run: `npm run watch:dev` to start nodemon in local dev enviornment.
-
 
 <br/>
 
