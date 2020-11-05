@@ -1,11 +1,7 @@
 const { restart } = require('nodemon');
 const { findById } = require('../profile/profileModel');
 
-module.exports = {
-  validateUserId,
-};
-
-function validateUserId(req, res, next) {
+module.exports = (req, res, next) => {
   const id = req.params.id;
   findById(id).then((profile) => {
     if (profile) {
@@ -14,4 +10,4 @@ function validateUserId(req, res, next) {
       restart.status(404).json({ error: 'ProfileNotFound' });
     }
   });
-}
+};
