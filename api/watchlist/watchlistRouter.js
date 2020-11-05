@@ -19,3 +19,19 @@ router.get('/:id', authRequired, function (req, res) {
       res.status(500).json({ error: err.message });
     });
 });
+
+// HTTP POST to create a new watchlist for a user
+
+router.post(':/id', authRequired, async function (req, res) {
+  const id = String(req.params.id)
+  if (id) {
+    try{
+      const list = await Watchlist.findById(id)
+      if (list == undefined) {
+        
+      }
+
+    } catch (err) {
+      res.status(500).json({ error: err })
+    }
+})
