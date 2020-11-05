@@ -40,7 +40,8 @@ OKTA_URL_ISSUER=
 
 - run: `npm install` to download all dependencies.
 - run: `cp .env.sample .env` and update the enviornment variables to match your local setup.
-- run: `docker-compose up` * Will start PostgresSQL DB and take a little while * (after installing Docker.)
+- run: `docker-compose up` * Will start PostgresSQL DB and take a little while * (after installing Docker.) 
+    *** If this step keeps recylcing, as in won't stay connected at all, you may want to free up some space on your computer by deleting uneeded files or old projects ***
 - run: `npm run knex migrate:latest` to create the starting schema.
 - run: `npm run knex seed:run` to populate your db with some data.
 - run: `npm run tests` to confirm all is setup and tests pass.
