@@ -1,20 +1,20 @@
 exports.up = function (knex) {
   return knex.schema
     .createTable('watchlist', (list) => {
-      list.increments();
+      list.increments().primary();
       list.string('list_title', 50).unique().notNullable();
       list.string('profile_id').unsigned().references('id').inTable('profiles');
-      list
+      list.text('notes', 255);
+    })
+    .createTable('watchlist_bridges', (bridge) => {
+      bridge.increments().primary();
+      bridge
         .string('project')
         .unsigned()
         .references('project_code')
         .inTable('bridges');
-    })
-    .createTable('notes', (notes) => {
-      notes.increments();
-      notes.text('notes', 255);
-      notes
-        .integer('watchlist_id')
+      bridge
+        .integer('list_id')
         .unsigned()
         .references('id')
         .inTable('watchlist');
@@ -22,5 +22,7 @@ exports.up = function (knex) {
 };
 
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists('notes').dropTableIfExists('watchlist');
+  return knex.schema
+    .dropTableIfExists('watchlist_bridges')
+    .dropTableIfExists('watchlist');
 };
