@@ -4,6 +4,7 @@ module.exports = {
   getNotes,
   addNotes,
   updateNotes,
+  removeNotes,
 };
 
 function getNotes() {
@@ -18,4 +19,8 @@ function addNotes(note) {
 
 function updateNotes(id, change) {
   return db('notes').where({ 'notes.id': id }).update(change);
+}
+
+function removeNotes(id) {
+  return db('notes').where({ 'notes.id': id }).del();
 }
