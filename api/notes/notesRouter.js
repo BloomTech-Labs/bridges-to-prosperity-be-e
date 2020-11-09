@@ -4,6 +4,7 @@ const Notes = require('./notesModel.js');
 
 const router = express.Router();
 
+
 router.get('/notes', (req, res) => {
   Notes.getNotes()
     .then((notes) => res.status(200).json(notes))
@@ -11,6 +12,7 @@ router.get('/notes', (req, res) => {
       res.status(500).json(error);
     });
 });
+
 
 router.post('/notes', (req, res) => {
   const notesData = req.body;
@@ -35,7 +37,7 @@ router.put('/notes/:id', (req, res) => {
 router.delete('/notes/:id', (req, res) => {
   Notes.removeNotes(req.params.id)
     .then((note) => {
-      res.status(204).json(error);
+      res.status(204).json({ message: `${note} was successfully deleted.` });
     })
     .catch((error) => {
       res.status(500).json(error);
