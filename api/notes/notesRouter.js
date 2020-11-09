@@ -8,7 +8,7 @@ router.get('/notes', (req, res) => {
   Notes.getNotes()
     .then((notes) => res.status(200).json(notes))
     .catch((error) => {
-      res.status(500).json({ message: 'There was an error finding the notes' }, error);
+      res.status(500).json(error);
     });
 });
 
@@ -17,7 +17,7 @@ router.post('/notes', (req, res) => {
   Notes.addNotes(notesData)
     .then((newNote) => res.status(201).json(newNote))
     .catch((error) => {
-      res.status(500).json({ message: 'Note could not be created' }, error);
+      res.status(500).json(error);
     });
 });
 
@@ -28,17 +28,17 @@ router.put('/notes/:id', (req, res) => {
       res.status(200).json(update);
     })
     .catch((error) => {
-      res.status(500).json({ message: 'Note could not be updated' }, error);
+      res.status(500).json(error);
     });
 });
 
 router.delete('/notes/:id', (req, res) => {
   Notes.removeNotes(req.params.id)
     .then((note) => {
-      res.status(204).json({ message: `${note} was successfully deleted.` }, error);
+      res.status(204).json(error);
     })
     .catch((error) => {
-      res.status(500).json({ message: 'There was an error deleting the note' }, error);
+      res.status(500).json(error);
     });
 });
 
