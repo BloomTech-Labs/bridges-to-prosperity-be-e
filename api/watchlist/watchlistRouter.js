@@ -1,7 +1,7 @@
 const express = require('express');
 const authRequired = require('../middleware/authRequired');
 const validateUserId = require('../middleware/validate-user-id');
-const Watchlist = require('./watchlist-bridgesModel');
+const Watchlist = require('./watchlist_bridgesModel');
 const { removeWatchlist } = require('./watchlist_bridgesModel');
 const router = express.Router();
 
@@ -83,3 +83,5 @@ router.delete('/:id', authRequired, async function (req, res) {
     res.status(500).json({ error: err });
   }
 });
+
+module.exports = router;
