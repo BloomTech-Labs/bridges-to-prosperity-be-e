@@ -1,21 +1,32 @@
 const db = require('../../data/db-config');
 
-module.exports = {
-  findWatchlist,
-  addWatchlist,
-  updateWatchlist,
-  removeWatchlist,
+async function findWatchlist(id) {
+  return db('watchlist')
+    .where({ profile_id: id })
+    .join('watchlist_bridges', 'watchlist.id', 'watchlist_bridges.list_id');
+}
+
+const addWatchlist = async (list_title, profile_id, notes, bridge_array) => {
+  // console.log(list_title, profile_id, notes, bridge_id);
+  try {
+    const list = await db('watchlist').insert({
+      list_title,
+      profile_id,
+      notes,
+    });
+    // Bridge_array is an array of bridges - mapping through the array
+    bridge_array.forEach(async (bridge) => {
+      await db('watchlist_bridges').insert({
+        bridge_id: bridge,
+        list_id: list.id,
+      });
+    });
+
+    return findWatchlist(profile_id);
+  } catch (err) {
+    return err;
+  }
 };
-
-function findWatchlist(id) {
-  return db('watchlist').where({ profile_id: id }).join('watchlist_bridges');
-}
-
-async function addWatchlist(list_title, profile_id, notes, bridge_id) {
-  const list = await db('watchlist').insert({ list_title, profile_id, notes });
-  await db('watchlist_bridges').insert({ bridge_id, list_id: list.id });
-  return findWatchlist(list.id);
-}
 
 function updateWatchlist(id, change) {
   return db('watchlist')
@@ -33,3 +44,10 @@ function removeWatchlist(user_id, bridge_id) {
     })
     .del();
 }
+
+module.exports = {
+  findWatchlist,
+  addWatchlist,
+  updateWatchlist,
+  removeWatchlist,
+};
