@@ -29,7 +29,7 @@ router.post('/:id', authRequired, validateUserId, async function (req, res) {
   const newList = {
     notes: req.body.notes,
     user: id,
-    locations: req.body.locations,
+    bridge: req.body.bridge,
     title: req.body.title,
   };
   if (id) {
@@ -37,7 +37,7 @@ router.post('/:id', authRequired, validateUserId, async function (req, res) {
       const list = await Watchlist.findWatchlist(id);
       if (list == undefined) {
         // this profile does not have a watchlist, add it
-        const createdList = await Watchlist.create(newList);
+        const createdList = await Watchlist.addWatchlist(newList);
         return res
           .status(200)
           .json({ message: 'watchlist created', watchlist: createdList[0] });
@@ -59,7 +59,7 @@ router.put('/:id', authRequired, validateUserId, async function (req, res) {
   const changes = {
     notes: req.body.notes,
     user: id,
-    locations: req.body.locations,
+    bridge: req.body.bridge,
     title: req.body.title,
   };
   try {

@@ -2,6 +2,7 @@ const request = require('supertest');
 const express = require('express');
 const Profiles = require('../../api/profile/profileModel');
 const profileRouter = require('../../api/profile/profileRouter');
+const watchlistRouter = require('../../api/watchlist/watchlistRouter');
 const server = express();
 server.use(express.json());
 
@@ -15,6 +16,7 @@ describe('profiles router endpoints', () => {
   beforeAll(() => {
     // This is the module/route being tested
     server.use(['/profile', '/profiles'], profileRouter);
+    server.use('/watchlist', watchlistRouter);
     jest.clearAllMocks();
   });
 
@@ -41,10 +43,11 @@ describe('Test watchlist endpoints', () => {
       .send({
         notes: 'Testing notes',
         user: '00ulthapbErVUwVJy4x6',
-        locations: '1014107',
+        bridge: '1014107',
         title: 'Test title',
       })
       .then((res) => {
+        console.log(res)
         expect(res.status).toBe(200);
       });
   });
