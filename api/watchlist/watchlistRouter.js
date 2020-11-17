@@ -14,7 +14,7 @@ router.get('/:id', authRequired, function (req, res) {
       if (list) {
         res.status(200).json(list);
       } else {
-        res.status(404).json({ error: 'WatchlistNotFound' });
+        res.status(404).json({ error: 'Watchlist Not Found' });
       }
     })
     .catch((err) => {
@@ -25,10 +25,11 @@ router.get('/:id', authRequired, function (req, res) {
 // HTTP POST to create a new watchlist for a user
 
 router.post('/:id', authRequired, validateUserId, async function (req, res) {
-  const notes = req.body.notes;
+  const notes = String(req.body.notes);
   const user = String(req.params.id);
   const locations = req.body.locations;
-  const title = req.body.title;
+  const title = String(req.body.title);
+  console.log(notes, user, locations, title);
 
   try {
     // const list = await Watchlist.findWatchlist(user);

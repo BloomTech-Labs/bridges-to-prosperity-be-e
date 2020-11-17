@@ -13,7 +13,7 @@ function findWatchlist(id) {
 }
 
 const addWatchlist = async (list_title, profile_id, notes, bridge_array) => {
-  // console.log(list_title, profile_id, notes, bridge_id);
+  console.log(list_title, profile_id, notes, bridge_array);
   try {
     await db('watchlist').insert({
       list_title,
@@ -23,7 +23,7 @@ const addWatchlist = async (list_title, profile_id, notes, bridge_array) => {
     // Bridge_array is an array of bridges - mapping through the array
     bridge_array.forEach(async (bridge) => {
       await db('watchlist_bridges').insert({
-        project: bridge,
+        project: String(bridge),
         list_id: profile_id,
       });
     });
