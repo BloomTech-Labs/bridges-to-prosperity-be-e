@@ -19,8 +19,7 @@ exports.up = function (knex) {
         .inTable('bridges')
         .notNullable();
       bridge
-        .integer('list_id')
-        .unsigned()
+        .string('list_id')
         .references('profile_id')
         .inTable('watchlist')
         .notNullable();
