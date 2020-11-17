@@ -50,22 +50,33 @@ describe('Test watchlist endpoints', () => {
         locations: '1014107',
       })
       .then((res) => {
-        console.log('POST test: ', res);
         expect(res.status).toBe(200);
       });
   });
-  test.skip('get watchlist', () => {
+  test('get watchlist', () => {
     return request(server)
+    .post('/watchlist/00ulthapbErVUwVJy4x6')
+    .send({
+      title: 'Test title',
+      user: '00ulthapbErVUwVJy4x6',
+      notes: 'Testing notes',
+      locations: '1014107',
+    })
+    .then( () => {
+      request(server)
       .get('/watchlist/00ulthapbErVUwVJy4x6')
-      .then((res) => {
-        expect(res.status).toBe(200);
-      });
+    .then((res) => {
+      console.log(res.body, res.status);
+      expect(res.status).toBe(200);
+    })
+  })  
   });
   test('update a watchlist', () => {
     return request(server)
       .put('/watchlist/00ulthapbErVUwVJy4x6')
       .send({ notes: 'Updating notes endpoint test in jest' })
       .then((res) => {
+        console.log(res.status, res.body);
         expect(res.status).toBe(200);
       });
   });
