@@ -58,16 +58,14 @@ describe('Test watchlist endpoints', () => {
     return request(server)
       .get('/watchlist/00ulthapbErVUwVJy4x6')
       .then((res) => {
-        console.log('GET test: ', res);
         expect(res.status).toBe(200);
       });
   });
-  test.skip('update a watchlist', () => {
+  test('update a watchlist', () => {
     return request(server)
       .put('/watchlist/00ulthapbErVUwVJy4x6')
       .send({ notes: 'Updating notes endpoint test in jest' })
       .then((res) => {
-        console.log('PUT test: ', res);
         expect(res.status).toBe(200);
       });
   });
@@ -75,7 +73,6 @@ describe('Test watchlist endpoints', () => {
     return request(server)
       .delete('/watchlist/00ulthapbErVUwVJy4x6')
       .then((res) => {
-        console.log('Delete Test: ', res);
         expect(res.status).toBe(204);
       });
   });
