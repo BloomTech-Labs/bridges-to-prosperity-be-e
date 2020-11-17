@@ -71,7 +71,7 @@ describe('Test watchlist endpoints', () => {
       });
   });
 
-  test('update a watchlist', () => {
+  test.skip('update a watchlist', () => {
     return request(server)
       .post('/watchlist/00ulthapbErVUwVJy4x6')
       .send({
