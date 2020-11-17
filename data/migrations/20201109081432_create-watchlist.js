@@ -1,23 +1,29 @@
 exports.up = function (knex) {
   return knex.schema
     .createTable('watchlist', (list) => {
-      list.increments().primary();
+      list.increments();
       list.string('list_title', 50);
-      list.string('profile_id').references('id').inTable('profiles').unique();
+      list
+        .string('profile_id')
+        .references('id')
+        .inTable('profiles')
+        .unique()
+        .notNullable();
       list.text('notes', 255);
     })
     .createTable('watchlist_bridges', (bridge) => {
-      bridge.increments().primary();
+      bridge.increments();
       bridge
         .string('project')
-        .unsigned()
         .references('project_code')
-        .inTable('bridges');
+        .inTable('bridges')
+        .notNullable();
       bridge
         .integer('list_id')
         .unsigned()
-        .references('id')
-        .inTable('watchlist');
+        .references('profile_id')
+        .inTable('watchlist')
+        .notNullable();
     });
 };
 
