@@ -2,11 +2,13 @@ const request = require('supertest');
 const express = require('express');
 const Profiles = require('../../api/profile/profileModel');
 const profileRouter = require('../../api/profile/profileRouter');
+const Watchlist = require('../../api/watchlist/watchlist-bridgesModel');
 const watchlistRouter = require('../../api/watchlist/watchlistRouter');
 const server = express();
 server.use(express.json());
 
 jest.mock('../../api/profile/profileModel');
+jest.mock('../../api/watchlist/watchlist-bridgesModel');
 // mock the auth middleware completely
 jest.mock('../../api/middleware/authRequired', () =>
   jest.fn((req, res, next) => next())
@@ -37,18 +39,44 @@ describe('profiles router endpoints', () => {
 });
 
 describe('Test watchlist endpoints', () => {
+  //passes halfway, connects but sql error
   test('add a watchlist', () => {
     return request(server)
       .post('/watchlist/00ulthapbErVUwVJy4x6')
       .send({
-        notes: 'Testing notes',
-        user: '00ulthapbErVUwVJy4x6',
-        bridge: '1014107',
         title: 'Test title',
+        user: '00ulthapbErVUwVJy4x6',
+        notes: 'Testing notes',
+        locations: '1014107',
       })
       .then((res) => {
-        console.log(res)
+        console.log('POST test: ', res);
         expect(res.status).toBe(200);
+      });
+  });
+  test.skip('get watchlist', () => {
+    return request(server)
+      .get('/watchlist/00ulthapbErVUwVJy4x6')
+      .then((res) => {
+        console.log('GET test: ', res);
+        expect(res.status).toBe(200);
+      });
+  });
+  test.skip('update a watchlist', () => {
+    return request(server)
+      .put('/watchlist/00ulthapbErVUwVJy4x6')
+      .send({ notes: 'Updating notes endpoint test in jest' })
+      .then((res) => {
+        console.log('PUT test: ', res);
+        expect(res.status).toBe(200);
+      });
+  });
+  test.skip('delete a watchlist', () => {
+    return request(server)
+      .delete('/watchlist/00ulthapbErVUwVJy4x6')
+      .then((res) => {
+        console.log('Delete Test: ', res);
+        expect(res.status).toBe(204);
       });
   });
 });
