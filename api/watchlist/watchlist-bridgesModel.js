@@ -1,15 +1,21 @@
 const db = require('../../data/db-config');
 
-async function findWatchlist(id) {
+function findWatchlist(id) {
   return db('watchlist')
-    .where({ profile_id: id })
-    .join('watchlist_bridges', 'watchlist.id', 'watchlist_bridges.list_id');
+    .where('watchlist.profile_id', id)
+    .join('watchlist_bridges', 'watchlist.id', 'watchlist_bridges.list_id')
+    .select(
+      'watchlist.profile_id',
+      'watchlist.notes',
+      'watchlist.list_title',
+      'watchlist_bridges.project'
+    );
 }
 
 const addWatchlist = async (list_title, profile_id, notes, bridge_array) => {
-  // console.log(list_title, profile_id, notes, bridge_id);
+  console.log(list_title, profile_id, notes, bridge_array);
   try {
-    const list = await db('watchlist').insert({
+    await db('watchlist').insert({
       list_title,
       profile_id,
       notes,
@@ -17,8 +23,8 @@ const addWatchlist = async (list_title, profile_id, notes, bridge_array) => {
     // Bridge_array is an array of bridges - mapping through the array
     bridge_array.forEach(async (bridge) => {
       await db('watchlist_bridges').insert({
-        project: bridge,
-        list_id: list.id,
+        project: String(bridge),
+        list_id: profile_id,
       });
     });
 
