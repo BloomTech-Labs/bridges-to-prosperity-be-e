@@ -3,7 +3,11 @@ const db = require('../../data/db-config');
 function findWatchlist(id) {
   return db('watchlist')
     .where('watchlist.profile_id', id)
-    .join('watchlist_bridges', 'watchlist.id', 'watchlist_bridges.list_id')
+    .join(
+      'watchlist_bridges',
+      'watchlist.profile_id',
+      'watchlist_bridges.list_id'
+    )
     .select(
       'watchlist.profile_id',
       'watchlist.notes',
