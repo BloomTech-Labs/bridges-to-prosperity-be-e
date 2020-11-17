@@ -69,8 +69,8 @@ router.put('/:id', authRequired, validateUserId, async function (req, res) {
     title: req.body.title,
   };
   try {
-    const updatedList = await Watchlist.updateWatchlist(changes);
-    res.status(200).json({ message: updatedList });
+    const updatedList = await Watchlist.updateWatchlist(id, changes);
+    res.status(200).json({ message: updatedList[0] });
   } catch (err) {
     res.status(500).json({ error: err });
   }
