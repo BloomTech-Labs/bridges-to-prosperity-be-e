@@ -1,19 +1,20 @@
 const db = require('../../data/db-config');
 
-function findWatchlist(id) {
-  return db('watchlist')
-    .where('watchlist.profile_id', id)
-    .join(
-      'watchlist_bridges',
-      'watchlist.profile_id',
-      'watchlist_bridges.list_id'
-    )
-    .select(
-      'watchlist.profile_id',
-      'watchlist.notes',
-      'watchlist.list_title',
-      'watchlist_bridges.project'
-    );
+async function findWatchlist(id) {
+  let list = await db('watchlist').where('profile_id', id);
+  const bridges = await db('watchlist_bridges')
+    .where('list_id', id)
+    .select('project');
+  console.log('list: ', list, 'bridges', bridges);
+  list = {
+    ...list[0],
+    locations: [],
+  };
+
+  bridges.map((bridge) => {
+    list.locations.push(bridge.project);
+  });
+  return list;
 }
 
 const addWatchlist = async (list_title, profile_id, notes, bridge_array) => {
@@ -38,19 +39,29 @@ const addWatchlist = async (list_title, profile_id, notes, bridge_array) => {
   }
 };
 
-function updateWatchlist(id, change) {
-  return db('watchlist')
-    .join('watchlist_bridges', 'watchlist.id', 'watchlist_bridges.list_id')
-    .where({ 'watchlist.profile_id': id })
-    .update(change);
+async function updateWatchlist(id, change) {
+  const { locations, ...rest } = change;
+  console.log('locations: ', locations, 'rest: ', rest);
+  // try {
+  //   await db('watchlist').where({ 'watchlist.profile_id': id }).update(rest);
+  // } catch (err) {
+  //   return err;
+  // }
+  try {
+    const bridge_list = await db('watchlist_bridges').where('list_id', id);
+    console.log(bridge_list);
+  } catch (err) {
+    return err;
+  }
+
+  return findWatchlist(id);
 }
 
 function removeWatchlist(user_id, bridge_id) {
   return db('watchlist_bridges')
-    .join('watchlist', 'watchlist_bridges.list_id', 'watchlist.id')
     .where({
-      'watchlist.profile_id': user_id,
-      'watchlist_bridges.project': bridge_id,
+      list_id: user_id,
+      project: bridge_id,
     })
     .del();
 }
