@@ -9,7 +9,7 @@ server.use(express.json());
 
 jest.mock('../../api/profile/profileModel');
 jest.mock('../../api/watchlist/watchlist-bridgesModel');
-jest.mock('../../api/bridge/bridgeModel');
+
 // mock the auth middleware completely
 jest.mock('../../api/middleware/authRequired', () =>
   jest.fn((req, res, next) => next())
