@@ -93,15 +93,15 @@ describe('Test watchlist endpoints', () => {
 
   test('delete a watchlist', () => {
     return request(server)
-      .post('/watchlist/00ulthapbErVUwVJy4x6')
-      .send({
-        title: 'Test: Delete this',
-        user: '00ulthapbErVUwVJy4x6',
-        notes: 'This will be deleted',
-        locations: '1014107',
-      })
-      .then(() => {
-        request(server)
+      // .post('/watchlist/00ulthapbErVUwVJy4x6')
+      // .send({
+      //   title: 'Test: Delete this',
+      //   user: '00ulthapbErVUwVJy4x6',
+      //   notes: 'This will be deleted',
+      //   locations: '1014107',
+      // })
+      // .then(() => {
+      //   request(server)
           .delete('/watchlist/00ulthapbErVUwVJy4x6')
           .then((res) => {
             console.log('DELETE: ', res.status, res.body);
@@ -109,4 +109,4 @@ describe('Test watchlist endpoints', () => {
           });
       });
   });
-});
+//});
