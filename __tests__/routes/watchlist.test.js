@@ -4,11 +4,13 @@ const Profiles = require('../../api/profile/profileModel');
 const profileRouter = require('../../api/profile/profileRouter');
 const Watchlist = require('../../api/watchlist/watchlist-bridgesModel');
 const watchlistRouter = require('../../api/watchlist/watchlistRouter');
+const bridgeRouter = require('../../api/bridge/bridgeRouter');
 const server = express();
 server.use(express.json());
 
 jest.mock('../../api/profile/profileModel');
 jest.mock('../../api/watchlist/watchlist-bridgesModel');
+jest.mock('../../api/bridge/bridgeModel');
 // mock the auth middleware completely
 jest.mock('../../api/middleware/authRequired', () =>
   jest.fn((req, res, next) => next())
@@ -91,22 +93,5 @@ describe('Test watchlist endpoints', () => {
       });
   });
 
-  test('delete a watchlist', () => {
-    return request(server)
-      // .post('/watchlist/00ulthapbErVUwVJy4x6')
-      // .send({
-      //   title: 'Test: Delete this',
-      //   user: '00ulthapbErVUwVJy4x6',
-      //   notes: 'This will be deleted',
-      //   locations: '1014107',
-      // })
-      // .then(() => {
-      //   request(server)
-          .delete('/watchlist/00ulthapbErVUwVJy4x6')
-          .then((res) => {
-            console.log('DELETE: ', res.status, res.body);
-            expect(res.status).toBe(200);
-          });
-      });
-  });
-//});
+  test('delete a watchlist', () => {});
+});
