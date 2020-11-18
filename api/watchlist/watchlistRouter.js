@@ -3,8 +3,7 @@ const authRequired = require('../middleware/authRequired');
 const validateUserId = require('../middleware/validate-user-id');
 
 const Watchlist = require('./watchlist-bridgesModel');
-const { removeWatchlist } = require('./watchlist-bridgesModel');
-
+const { removeWatchlist, findWatchlist } = require('./watchlist-bridgesModel');
 const router = express.Router();
 
 // HTTP GET to retrieve the authenticated user's watchlist
@@ -64,29 +63,51 @@ router.put('/:id', authRequired, validateUserId, async function (req, res) {
   const id = String(req.params.id);
   const changes = {
     notes: req.body.notes,
-    user: id,
-    bridge: req.body.bridge,
+    profile_id: id,
     title: req.body.title,
   };
+
   try {
-    const updatedList = await Watchlist.updateWatchlist(id, changes);
-    res.status(200).json({ message: updatedList[0] });
+    await Watchlist.updateWatchlist(id, changes);
   } catch (err) {
     res.status(500).json({ error: err });
   }
+
+  const updatedList = await findWatchlist(id);
+  res.status(200).json({ message: updatedList });
 });
 
-// HTTP DELETE to remove a bridge from the user's watchlist
-
-router.delete('/:id', authRequired, async function (req, res) {
+router.put('/bridge/:id', authRequired, validateUserId, async function (
+  req,
+  res
+) {
   const id = String(req.params.id);
   const bridge = req.body.bridge;
 
   try {
-    const deleted = await removeWatchlist(id, bridge);
-    res.status(200).json({ message: deleted });
+    await Watchlist.addBridge(id, bridge);
   } catch (err) {
     res.status(500).json({ error: err });
+  }
+
+  const updatedList = await findWatchlist(id);
+  res.status(200).json({ message: updatedList });
+});
+
+// HTTP DELETE to remove a bridge from the user's watchlist
+
+router.delete('/bridge/:id', authRequired, validateUserId, async function (
+  req,
+  res
+) {
+  const id = String(req.params.id);
+  const bridge = req.body.bridge;
+
+  try {
+    await removeWatchlist(id, bridge);
+    return res.status(204).end();
+  } catch (err) {
+    return res.status(500).json({ error: err });
   }
 });
 
