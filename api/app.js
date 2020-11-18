@@ -25,6 +25,7 @@ const indexRouter = require('./index/indexRouter');
 const profileRouter = require('./profile/profileRouter');
 const dsRouter = require('./dsService/dsRouter');
 const bridgeRouter = require('./bridge/bridgeRouter');
+const watchlistRouter = require('./watchlist/watchlistRouter');
 
 const app = express();
 
@@ -55,6 +56,7 @@ app.use('/', indexRouter);
 app.use(['/profile', '/profiles'], profileRouter);
 app.use('/bridges', bridgeRouter);
 app.use('/data', dsRouter);
+app.use('/watchlist', watchlistRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
