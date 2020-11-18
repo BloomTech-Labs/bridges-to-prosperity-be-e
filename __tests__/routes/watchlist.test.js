@@ -3,10 +3,10 @@ const express = require('express');
 const Profiles = require('../../api/profile/profileModel');
 const profileRouter = require('../../api/profile/profileRouter');
 const watchlistRouter = require('../../api/watchlist/watchlistRouter');
-
 const server = express();
 server.use(express.json());
 
+//mock the needed Models
 jest.mock('../../api/profile/profileModel');
 jest.mock('../../api/watchlist/watchlist-bridgesModel');
 
