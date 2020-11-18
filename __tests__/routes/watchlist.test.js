@@ -2,9 +2,9 @@ const request = require('supertest');
 const express = require('express');
 const Profiles = require('../../api/profile/profileModel');
 const profileRouter = require('../../api/profile/profileRouter');
-const Watchlist = require('../../api/watchlist/watchlist-bridgesModel');
+
 const watchlistRouter = require('../../api/watchlist/watchlistRouter');
-const bridgeRouter = require('../../api/bridge/bridgeRouter');
+
 const server = express();
 server.use(express.json());
 
@@ -20,7 +20,7 @@ describe('profiles router endpoints', () => {
   beforeAll(() => {
     // This is the module/route being tested
     server.use(['/profile', '/profiles'], profileRouter);
-    server.use('/watchlist', watchlistRouter);
+    server.use(['/watchlist', 'watchlist/bridge'], watchlistRouter);
     jest.clearAllMocks();
   });
 
@@ -41,7 +41,7 @@ describe('profiles router endpoints', () => {
 });
 
 describe('Test watchlist endpoints', () => {
-  test('add a watchlist', () => {
+  test('add a watchlist', (done) => {
     return request(server)
       .post('/watchlist/00ulthapbErVUwVJy4x6')
       .send({
@@ -52,6 +52,7 @@ describe('Test watchlist endpoints', () => {
       })
       .then((res) => {
         expect(res.status).toBe(200);
+        done();
       });
   });
 
@@ -73,25 +74,22 @@ describe('Test watchlist endpoints', () => {
       });
   });
 
-  test('update a watchlist', () => {
+  test('delete a bridge from watchlist', () => {
     return request(server)
       .post('/watchlist/00ulthapbErVUwVJy4x6')
       .send({
         title: 'Test update title',
         user: '00ulthapbErVUwVJy4x6',
         notes: 'Update testing notes',
-        locations: '1014107',
+        locations: '1014106',
       })
       .then(() => {
         request(server)
-          .put('/watchlist/00ulthapbErVUwVJy4x6')
-          .send({ notes: 'Updating notes endpoint test in jest' })
+          .delete('/watchlist/bridge/00ulthapbErVUwVJy4x6')
+          .send({ bridge: '1014106' })
           .then((res) => {
-            console.log(res.status, res.body);
-            expect(res.status).toBe(200);
+            expect(res.status).toBe(204);
           });
       });
   });
-
-  test('delete a watchlist', () => {});
 });

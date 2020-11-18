@@ -53,7 +53,6 @@ router.post('/:id', authRequired, validateUserId, async function (req, res) {
     // }
   } catch (err) {
     res.status(500).json({ error: err });
-
   }
 });
 
