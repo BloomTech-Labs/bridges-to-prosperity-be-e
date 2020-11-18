@@ -3,8 +3,6 @@ const db = require('../../data/db-config');
 async function findWatchlist(id) {
   let list = await db('watchlist').where('profile_id', id);
   const bridges = await findBridges(id);
-  console.log(bridges);
-  // console.log('list: ', list, 'bridges', bridges);
   list = {
     ...list[0],
     locations: bridges,
@@ -20,7 +18,6 @@ async function findBridges(id) {
     .select('project');
 
   bridges.forEach((bridge) => {
-    console.log(bridge);
     bridge_array.push(bridge.project);
   });
 
@@ -28,7 +25,6 @@ async function findBridges(id) {
 }
 
 const addWatchlist = async (title, profile_id, notes, bridge_array) => {
-  // console.log(title, profile_id, notes, bridge_array);
   try {
     await db('watchlist').insert({
       title,

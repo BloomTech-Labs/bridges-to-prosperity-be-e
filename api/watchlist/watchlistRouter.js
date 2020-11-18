@@ -29,11 +29,8 @@ router.post('/:id', authRequired, validateUserId, async function (req, res) {
   const user = String(req.params.id);
   const locations = req.body.locations;
   const title = String(req.body.title);
-  console.log(notes, user, locations, title);
 
   try {
-    // const list = await Watchlist.findWatchlist(user);
-    // if (list == []) {
     // this profile does not have a watchlist, add it
     const createdList = await Watchlist.addWatchlist(
       title,
@@ -44,12 +41,6 @@ router.post('/:id', authRequired, validateUserId, async function (req, res) {
     return res
       .status(200)
       .json({ message: 'watchlist created', watchlist: createdList });
-    // } else {
-    //   res.status(400).json({
-    //     message: list,
-    //     error: 'Watchlist for this user already exists',
-    //   });
-    // }
   } catch (err) {
     res.status(500).json({ error: err });
   }
