@@ -1,6 +1,7 @@
 const express = require('express');
 const authRequired = require('../middleware/authRequired');
 const validateUserId = require('../middleware/validate-user-id');
+
 const Watchlist = require('./watchlist-bridgesModel');
 const { removeWatchlist, findWatchlist } = require('./watchlist-bridgesModel');
 const router = express.Router();
