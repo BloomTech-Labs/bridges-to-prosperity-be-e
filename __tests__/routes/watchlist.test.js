@@ -2,7 +2,6 @@ const request = require('supertest');
 const express = require('express');
 const Profiles = require('../../api/profile/profileModel');
 const profileRouter = require('../../api/profile/profileRouter');
-
 const watchlistRouter = require('../../api/watchlist/watchlistRouter');
 
 const server = express();
@@ -38,58 +37,58 @@ describe('profiles router endpoints', () => {
       expect(Profiles.findById.mock.calls.length).toBe(1);
     });
   });
-});
 
-describe('Test watchlist endpoints', () => {
-  test('add a watchlist', (done) => {
-    return request(server)
-      .post('/watchlist/00ulthapbErVUwVJy4x6')
-      .send({
-        title: 'Test title',
-        user: '00ulthapbErVUwVJy4x6',
-        notes: 'Testing notes',
-        locations: '1014107',
-      })
-      .then((res) => {
-        expect(res.status).toBe(200);
-        done();
-      });
-  });
+  describe('Test watchlist endpoints', () => {
+    test('add a watchlist', (done) => {
+      return request(server)
+        .post('/watchlist/00ulthapbErVUwVJy4x6')
+        .send({
+          title: 'Test title',
+          user: '00ulthapbErVUwVJy4x6',
+          notes: 'Testing notes',
+          locations: '1014107',
+        })
+        .then((res) => {
+          expect(res.status).toBe(200);
+          done();
+        });
+    });
 
-  test('get watchlist', () => {
-    return request(server)
-      .post('/watchlist/00ulthapbErVUwVJy4x6')
-      .send({
-        title: 'Test title',
-        user: '00ulthapbErVUwVJy4x6',
-        notes: 'Testing notes',
-        locations: '1014107',
-      })
-      .then(() => {
-        request(server)
-          .get('/watchlist/00ulthapbErVUwVJy4x6')
-          .then((res) => {
-            expect(res.status).toBe(200);
-          });
-      });
-  });
+    test('get watchlist', () => {
+      return request(server)
+        .post('/watchlist/00ulthapbErVUwVJy4x6')
+        .send({
+          title: 'Test title',
+          user: '00ulthapbErVUwVJy4x6',
+          notes: 'Testing notes',
+          locations: '1014107',
+        })
+        .then(() => {
+          request(server)
+            .get('/watchlist/00ulthapbErVUwVJy4x6')
+            .then((res) => {
+              expect(res.status).toBe(200);
+            });
+        });
+    });
 
-  test('delete a bridge from watchlist', () => {
-    return request(server)
-      .post('/watchlist/00ulthapbErVUwVJy4x6')
-      .send({
-        title: 'Test update title',
-        user: '00ulthapbErVUwVJy4x6',
-        notes: 'Update testing notes',
-        locations: '1014106',
-      })
-      .then(() => {
-        request(server)
-          .delete('/watchlist/bridge/00ulthapbErVUwVJy4x6')
-          .send({ bridge: '1014106' })
-          .then((res) => {
-            expect(res.status).toBe(204);
-          });
-      });
+    test('delete a bridge from watchlist', () => {
+      return request(server)
+        .post('/watchlist/00ulthapbErVUwVJy4x6')
+        .send({
+          title: 'Test update title',
+          user: '00ulthapbErVUwVJy4x6',
+          notes: 'Update testing notes',
+          locations: '1014106',
+        })
+        .then(() => {
+          request(server)
+            .delete('/watchlist/bridge/00ulthapbErVUwVJy4x6')
+            .send({ bridge: '1014106' })
+            .then((res) => {
+              expect(res.status).toBe(204);
+            });
+        });
+    });
   });
 });
