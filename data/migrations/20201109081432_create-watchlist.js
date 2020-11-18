@@ -2,7 +2,7 @@ exports.up = function (knex) {
   return knex.schema
     .createTable('watchlist', (list) => {
       list.increments();
-      list.string('list_title', 50);
+      list.string('title', 50);
       list
         .string('profile_id')
         .references('id')

@@ -2,35 +2,42 @@ const db = require('../../data/db-config');
 
 async function findWatchlist(id) {
   let list = await db('watchlist').where('profile_id', id);
-  const bridges = await db('watchlist_bridges')
-    .where('list_id', id)
-    .select('project');
-  console.log('list: ', list, 'bridges', bridges);
+  const bridges = await findBridges(id);
+  console.log(bridges);
+  // console.log('list: ', list, 'bridges', bridges);
   list = {
     ...list[0],
-    locations: [],
+    locations: bridges,
   };
 
-  bridges.map((bridge) => {
-    list.locations.push(bridge.project);
-  });
   return list;
 }
 
-const addWatchlist = async (list_title, profile_id, notes, bridge_array) => {
-  console.log(list_title, profile_id, notes, bridge_array);
+async function findBridges(id) {
+  let bridge_array = [];
+  const bridges = await db('watchlist_bridges')
+    .where('list_id', id)
+    .select('project');
+
+  bridges.forEach((bridge) => {
+    console.log(bridge);
+    bridge_array.push(bridge.project);
+  });
+
+  return bridge_array;
+}
+
+const addWatchlist = async (title, profile_id, notes, bridge_array) => {
+  // console.log(title, profile_id, notes, bridge_array);
   try {
     await db('watchlist').insert({
-      list_title,
+      title,
       profile_id,
       notes,
     });
     // Bridge_array is an array of bridges - mapping through the array
     bridge_array.forEach(async (bridge) => {
-      await db('watchlist_bridges').insert({
-        project: String(bridge),
-        list_id: profile_id,
-      });
+      addBridge(profile_id, bridge);
     });
 
     return findWatchlist(profile_id);
@@ -40,35 +47,28 @@ const addWatchlist = async (list_title, profile_id, notes, bridge_array) => {
 };
 
 async function updateWatchlist(id, change) {
-  const { locations, ...rest } = change;
-  console.log('locations: ', locations, 'rest: ', rest);
-  // try {
-  //   await db('watchlist').where({ 'watchlist.profile_id': id }).update(rest);
-  // } catch (err) {
-  //   return err;
-  // }
-  try {
-    const bridge_list = await db('watchlist_bridges').where('list_id', id);
-    console.log(bridge_list);
-  } catch (err) {
-    return err;
-  }
-
-  return findWatchlist(id);
+  return await db('watchlist').where('profile_id', id).update(change);
 }
 
-function removeWatchlist(user_id, bridge_id) {
-  return db('watchlist_bridges')
-    .where({
-      list_id: user_id,
-      project: bridge_id,
-    })
+async function addBridge(id, bridge) {
+  return await db('watchlist_bridges').insert({
+    project: String(bridge),
+    list_id: id,
+  });
+}
+
+async function removeWatchlist(id, bridge) {
+  return await db('watchlist_bridges')
+    .where('list_id', id)
+    .andWhere('project', String(bridge))
     .del();
 }
 
 module.exports = {
   findWatchlist,
+  findBridges,
   addWatchlist,
   updateWatchlist,
+  addBridge,
   removeWatchlist,
 };
