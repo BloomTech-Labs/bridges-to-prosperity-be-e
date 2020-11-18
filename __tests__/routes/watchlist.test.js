@@ -71,7 +71,7 @@ describe('Test watchlist endpoints', () => {
       });
   });
 
-  test.skip('update a watchlist', () => {
+  test('update a watchlist', () => {
     return request(server)
       .post('/watchlist/00ulthapbErVUwVJy4x6')
       .send({
@@ -91,7 +91,7 @@ describe('Test watchlist endpoints', () => {
       });
   });
 
-  test.skip('delete a watchlist', () => {
+  test('delete a watchlist', () => {
     return request(server)
       .post('/watchlist/00ulthapbErVUwVJy4x6')
       .send({
@@ -104,7 +104,8 @@ describe('Test watchlist endpoints', () => {
         request(server)
           .delete('/watchlist/00ulthapbErVUwVJy4x6')
           .then((res) => {
-            expect(res.status).toBe(204);
+            console.log('DELETE: ', res.status, res.body);
+            expect(res.status).toBe(200);
           });
       });
   });
