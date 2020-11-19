@@ -40,9 +40,9 @@ OKTA_URL_ISSUER=
 
 - run: `npm install` to download all dependencies.
 - run: `cp .env.sample .env` and update the enviornment variables to match your local setup.
-- run: `docker-compose up` * Will start PostgresSQL DB and take a little while * (after installing Docker.) 
-    *** If this step keeps recylcing, as in won't stay connected at all, you may want to free up some space on your computer by deleting uneeded files or old projects ***
-    *** If on a MAC: Make sure wherever the project is located isn't automatically uploaded to the cloud. It will cause knex issues and not work properly ***
+- run: `docker-compose up` _ Will start PostgresSQL DB and take a little while _ (after installing Docker.)
+  **_ If this step keeps recylcing, as in won't stay connected at all, you may want to free up some space on your computer by deleting uneeded files or old projects _**
+  **_ If on a MAC: Make sure wherever the project is located isn't automatically uploaded to the cloud. It will cause knex issues and not work properly _**
 - run: `npm run knex migrate:latest` to create the starting schema.
 - run: `npm run knex seed:run` to populate your db with some data.
 - run: `npm run tests` to confirm all is setup and tests pass.
@@ -241,3 +241,151 @@ Returns:
 
 Allows you to edit bridges information.
 <br/>
+
+### Watchlist Endpoints
+
+<br/>
+GET REQUEST TO:
+
+https://bridges-b-api.herokuapp.com/watchlist:userID
+
+Returns:
+
+```
+{
+    "id": 1,
+    "title": "Is this my list?",
+    "profile_id": "00ulthapbErVUwVJy4x6",
+    "notes": "These are bridges I'd like to track",
+    "locations": [
+        "1014107",
+        "1014106"
+    ]
+}
+```
+
+<br/>
+
+POST REQUEST TO:
+
+https://bridges-b-api.herokuapp.com/watchlist:userID
+
+Req.body:
+
+```
+{
+    "notes": "These are bridges I'd like to track",
+    "locations": ["1014107", "1014106"],
+    "title": "This is my list"
+}
+```
+
+Returns:
+
+```
+{
+    "message": "watchlist created",
+    "watchlist": {
+        "id": 1,
+        "title": "This is my list",
+        "profile_id": "00ulthapbErVUwVJy4x6",
+        "notes": "These are bridges I'd like to track",
+        "locations": [
+            "1014107",
+            "1014106"
+        ]
+    }
+}
+```
+
+Creates a list for a user.
+
+<br/>
+
+PUT REQUEST TO:
+
+https://bridges-b-api.herokuapp.com/watchlist:userID
+
+Req.body:
+
+```
+{
+    "notes": "These are bridges I'd like to track",
+    "title": "Is this my list?"
+}
+```
+
+Returns:
+
+```
+{
+    "message": {
+        "id": 1,
+        "title": "Is this my list?",
+        "profile_id": "00ulthapbErVUwVJy4x6",
+        "notes": "These are bridges I'd like to track",
+        "locations": [
+            "1014107",
+            "1014106"
+        ]
+    }
+}
+```
+
+Edits the `notes` and `title` fields.
+
+<br/>
+
+PUT REQUEST TO:
+
+https://bridges-b-api.herokuapp.com/watchlist/bridge/:userID
+
+Req.body:
+
+```
+{
+    "bridge": "1007651"
+}
+```
+
+Returns:
+
+```
+{
+    "message": {
+        "id": 1,
+        "title": "Is this my list?",
+        "profile_id": "00ulthapbErVUwVJy4x6",
+        "notes": "These are bridges I'd like to track",
+        "locations": [
+            "1014107",
+            "1014106",
+            "1007651"
+        ]
+    }
+}
+```
+
+Adds a bridge to the watchlist.
+
+<br/>
+
+DELETE REQUEST TO:
+
+https://bridges-b-api.herokuapp.com/watchlist/bridge/:userID
+
+Req.body:
+
+```
+{
+    "bridge": "1007651"
+}
+```
+
+Returns:
+
+```
+1
+```
+
+Deletes a bridge from the watchlist.
